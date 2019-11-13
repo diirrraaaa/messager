@@ -25,24 +25,70 @@
 
 // user.inbox --> that person's messages
 
+const Conversations = []
+
+class Conversation {
+  constructor() {
+    this.id = Conversations.length + 1
+    this.messages = []
+    this.users = []
+  }
+  add(user) {
+    this.users.push(user)
+  }
+}
+
+
+
 class User {
   constructor(name){
     this.name = name
     this.inbox = []
+    this.blockedUser = []
   }
-  sendMessage(receiver, content){
-    let msg = new Message(receiver, content)
-    receiver.inbox.push(msg)
+  block(user){
+    this.blockedUser.push(user)
+  }
+  sendMessage(convo, content){
+    // if (convo.blockedUser.includes(this)) return 'You have been blocked '
+    let msg = new Message( content)
+    convo.inbox.push(msg)
     return `Your message to ${receiver} has been sent`
   }
   readMessage(i) {
+    this.inbox[i].seen = true
+    this.inbox[i].seenAt = new Date()
     return this.inbox[i].content
   }
+  unreadMessages(){
+    let unread = []
+    for (let msg of this.inbox){
+      if (msg.seen === false){
+        unread.push(msg)
+        console.log(msg.content)
+      }
+    }
+    return unread
+  }
 }
-class Message {
-  constructor(receiver, content){
-  this.receiver = receiver
+
+readMessages() {
+  let read = []
+  for (let msg of this.inbox){
+    if (msg.seen === true){
+      read.push(msg)
+      console.log(msg.content)
+    }
+  }
+  return read
+}
+
+class Message{
+  constructor(convo, content){
+  this.convo = convo
   this.content = content
+  this.seen = false
+  this.seenAt = null
   }
 }
 let user1 = new User('nadira')
