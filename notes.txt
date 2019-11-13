@@ -1,0 +1,5 @@
+<form> - submit form immediately
+<form id> -
+event.preventDefault()
+this. -this instance
+new keyword/ constructor are tied together
